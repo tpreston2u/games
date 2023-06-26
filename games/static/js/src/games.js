@@ -13,25 +13,24 @@ function GamesXBlock(runtime, element) {
         $('.count', element).text(result.count);
     }
     */
-
-    //TO-DO: Learn what data type 'result' is below and decide whether to give it a new name
-    function updateTitle(result) {
-        $('.title', element).text(result.title);
-    }
+   function updateTimer(timerResult) {
+        $('.timer', element).text(timerResult.timer);
+   }
 
     //TO-DO: Learn what I should replace increment_count with
-    var handlerUrl = runtime.handlerUrl(element, 'increment_count');
+    var handlerUrl = runtime.handlerUrl(element, 'update_timer');
 
     //To-DO: Validate this section is correct
-    $('.title', element).click(function(eventObject) {
+    $('.timer', element).click(function(eventObject) {
         $.ajax({
             type: "POST",
             url: handlerUrl,
-            data: JSON.stringify({"hello": "world"}),
-            success: updateTitle
+            data: JSON.stringify({timerValue: 'timer'}),
+            success: updateTimer
         });
     });
 
+    return {};
     $(function ($) {
         /* Here's where you'd do things on page load. */
     });

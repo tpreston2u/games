@@ -1,11 +1,15 @@
 """An XBlock providing gamification capabilities."""
 
+import logging
+
 import pkg_resources
 from web_fragments.fragment import Fragment
 from xblock.core import XBlock
 
 #TO-DO: May need to import more or less field types later (DateTime is defined at line 935 but not listed at line 27: https://github.com/openedx/XBlock/blob/master/xblock/fields.py)
-from xblock.fields import Integer, Scope, String, Boolean
+from xblock.fields import Integer, Scope, String, Boolean, List
+
+log = logging.getLogger(__name__)
 
 
 class GamesXBlock(XBlock):
@@ -23,12 +27,18 @@ class GamesXBlock(XBlock):
     title = String(
         default="", 
         scope=Scope.content, 
-        help="The title of the block.")
+        help="The title of the block."
+    )
     type = String(
         default="", 
         scope=Scope.settings, 
-        help="The kind of game this block is responsible for.")
-    #List for terms, defs, and images?
+        help="The kind of game this block is responsible for."
+    )
+    list = List(
+        default=[],
+        scope=Scope.content,
+        help="The list of terms and definitions."
+    )
     #The following fields should be in the list
     ###############
     term = String(
@@ -44,23 +54,27 @@ class GamesXBlock(XBlock):
     image = String(
         default="",
         scope=Scope.content, 
-        help="The image that will act as either the term or definition.")
+        help="The image that will act as either the term or definition."
+    )
     ##############
     shuffle = Boolean(
         default=True, 
         scope=Scope.settings, 
-        help="Whether to shuffle. For flashcards only.")
+        help="Whether to shuffle. For flashcards only."
+    )
     timer = Boolean(
         default=True, 
         scope=Scope.settings, 
-        help="Whether to enable the timer.")
+        help="Whether to enable the timer."
+    )
     #Need a variable for whether timer is enabled? (default=True)
     #Following fields for student view
     ################
     bestTime = Integer(
         default=None, 
         scope=Scope.user_info, 
-        help="The user's best time.")
+        help="The user's best time."
+    )
     ################
 
     def resource_string(self, path):
@@ -96,6 +110,7 @@ class GamesXBlock(XBlock):
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
+    '''
     @XBlock.json_handler
     def increment_count(self, data, suffix=''):
         """
@@ -106,16 +121,18 @@ class GamesXBlock(XBlock):
 
         self.count += 1
         return {"count": self.count}
-    
-    # TO-DO: Is a handler necessary for this?
+    '''
+
     @XBlock.json_handler
-    def update_title(self, data, suffix=''):
+    def update_timer(self, data, suffix=''):
         """
-        A handler to update the text in the title field.
+        A handler to switch the timer field between true and false.
         """
 
-        self.title = data
-        return {"title": self.title}
+        #if data['timerValue'] == 'timer':
+        self.timer = not(self.timer)
+        
+        return {"timer": self.timer}
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
