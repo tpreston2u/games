@@ -5,7 +5,7 @@ from web_fragments.fragment import Fragment
 from xblock.core import XBlock
 
 #TO-DO: May need to import more or less field types later (DateTime is defined at line 935 but not listed at line 27: https://github.com/openedx/XBlock/blob/master/xblock/fields.py)
-from xblock.fields import Integer, Scope, String, Boolean#, DateTime, List
+from xblock.fields import Integer, Scope, String, Boolean
 
 
 class GamesXBlock(XBlock):
@@ -21,7 +21,7 @@ class GamesXBlock(XBlock):
 
     # TO-DO: make sure these fields are correct
     title = String(
-        default="TEST", 
+        default="", 
         scope=Scope.content, 
         help="The title of the block.")
     type = String(
@@ -41,17 +41,26 @@ class GamesXBlock(XBlock):
         scope=Scope.content,
         help="The definition that defines the term or image."
     )
-    #image = ?(default=?, scope=Scope.content, help="The image that will act as either the term or definition.")
+    image = String(
+        default="",
+        scope=Scope.content, 
+        help="The image that will act as either the term or definition.")
     ##############
     shuffle = Boolean(
         default=True, 
         scope=Scope.settings, 
         help="Whether to shuffle. For flashcards only.")
-    #timer = DateTime(default=datetime.now(), scope=Scope.user_state, help="A simple timer for the matching game.")
+    timer = Boolean(
+        default=True, 
+        scope=Scope.settings, 
+        help="Whether to enable the timer.")
     #Need a variable for whether timer is enabled? (default=True)
     #Following fields for student view
     ################
-    #bestTime = DateTime?(default=MaxINT?, scope=user_info?, help="The user's best time.")
+    bestTime = Integer(
+        default=None, 
+        scope=Scope.user_info, 
+        help="The user's best time.")
     ################
 
     def resource_string(self, path):
