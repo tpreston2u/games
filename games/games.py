@@ -29,11 +29,30 @@ class GamesXBlock(XBlock):
         scope=Scope.settings, 
         help="The kind of game this block is responsible for.")
     #List for terms, defs, and images?
+    #The following fields should be in the list
+    ###############
+    term = String(
+        default="",
+        scope=Scope.content,
+        help="The term to be defined by the definition or image."
+    )
+    definition = String(
+        default="",
+        scope=Scope.content,
+        help="The definition that defines the term or image."
+    )
+    #image = ?(default=?, scope=Scope.content, help="The image that will act as either the term or definition.")
+    ##############
     shuffle = Boolean(
         default=True, 
         scope=Scope.settings, 
         help="Whether to shuffle. For flashcards only.")
     #timer = DateTime(default=datetime.now(), scope=Scope.user_state, help="A simple timer for the matching game.")
+    #Need a variable for whether timer is enabled? (default=True)
+    #Following fields for student view
+    ################
+    #bestTime = DateTime?(default=MaxINT?, scope=user_info?, help="The user's best time.")
+    ################
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
@@ -79,6 +98,7 @@ class GamesXBlock(XBlock):
         self.count += 1
         return {"count": self.count}
     
+    # TO-DO: Is a handler necessary for this?
     @XBlock.json_handler
     def update_title(self, data, suffix=''):
         """
