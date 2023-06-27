@@ -10,10 +10,12 @@
     padding: 0 .5em;
 }
 
-.flashcard {
+.flashcard, .arrow {
     cursor: pointer;
     border: 1px solid #888;
     padding: 0 .5em;
 }
-
+.arrow {
+    background-color: lightgray
+}
 /* style for true vs false? */

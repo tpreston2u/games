@@ -7,7 +7,7 @@ from web_fragments.fragment import Fragment
 from xblock.core import XBlock
 
 #TO-DO: May need to import more or less field types later (https://github.com/openedx/XBlock/blob/master/xblock/fields.py)
-from xblock.fields import Integer, Scope, String, Boolean, List
+from xblock.fields import Integer, Scope, String, Boolean, List, Dict
 
 log = logging.getLogger(__name__)
 
@@ -31,13 +31,8 @@ class GamesXBlock(XBlock):
         scope=Scope.settings, 
         help="The kind of game this block is responsible for."
     )
-    list = List(
-        default=[],
-        scope=Scope.content,
-        help="The list of terms and definitions."
-    )
     ###############
-    #The following fields should be in the list
+    #The following fields should be in the list below
     term = String(
         default="This is a term.",
         scope=Scope.content,
@@ -53,12 +48,39 @@ class GamesXBlock(XBlock):
         scope=Scope.content, 
         help="The image that will act as either the term or definition."
     )
+    ###############
+    list = List(
+        default=[
+            Dict(
+                default=dict(term='term1', definition='definition1'),
+                scope=Scope.content,
+                help="The first flashcard in the list."
+            ),
+            Dict(
+                default=dict(term='term2', definition='definition2'),
+                scope=Scope.content,
+                help="The second flashcard in the list."
+            ),
+            Dict(
+                default=dict(term='term3', definition='definition3'),
+                scope=Scope.content,
+                help="The third flashcard in the list."
+            )
+        ],
+        scope=Scope.content,
+        help="The list of terms and definitions."
+    )
+    list_index = Integer(
+        default=0,
+        scope=Scope.settings,
+        help="The index of the list that determines which flashcard is visible."
+    )
+
     term_is_visible = Boolean(
         default=True,
         scope=Scope.settings,
         help="True when the term is visible and false when the definition is visible."
     )
-    ##############
     shuffle = Boolean(
         default=True, 
         scope=Scope.settings, 
@@ -146,6 +168,9 @@ class GamesXBlock(XBlock):
             return {'text': self.definition}
         return {'text': self.term}
 
+    @XBlock.json_handler
+    def page_turn(self, data, suffix=''):
+        return {}
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
