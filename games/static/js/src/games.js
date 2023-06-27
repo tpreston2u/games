@@ -8,27 +8,41 @@ function GamesAside(runtime, element, block_element, init_args) {
 
 function GamesXBlock(runtime, element) {
 
-    /*
-    function updateCount(result) {
-        $('.count', element).text(result.count);
-    }
-    */
-   function updateTimer(timerResult) {
-        $('.timer', element).text(timerResult.timer);
+    //////////////////////////////////////////////////////////////
+    //Timer Flip
+   function flipTimer(newTimer) {
+        $('.timer_bool .timer_flip', element).text(newTimer.timer);
    }
 
-    //TO-DO: Learn what I should replace increment_count with
-    var handlerUrl = runtime.handlerUrl(element, 'update_timer');
+    //var handlerUrlTimer = runtime.handlerUrl(element, 'flip_timer');
 
-    //To-DO: Validate this section is correct
-    $('.timer', element).click(function(eventObject) {
+    $('.timer_bool', element).click(function(eventObject) {
         $.ajax({
             type: "POST",
-            url: handlerUrl,
-            data: JSON.stringify({timerValue: 'timer'}),
-            success: updateTimer
+            url: runtime.handlerUrl(element, 'flip_timer'),//handlerUrlTimer,
+            data: JSON.stringify({timerData: 'timer'}),
+            success: flipTimer
         });
     });
+    //////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////
+    //Shuffle Flip
+    function flipShuffle(newShuffle) {
+        $('.shuffle_bool .shuffle_flip', element).text(newShuffle.shuffle);
+   }
+
+    //var handlerUrlShuffle = runtime.handlerUrl(element, 'flip_shuffle');
+
+    $('.shuffle_bool', element).click(function(eventObject) {
+        $.ajax({
+            type: "POST",
+            url: runtime.handlerUrl(element, 'flip_shuffle'),//handlerUrlShuffle,
+            data: JSON.stringify({shuffleData: 'shuffle'}),
+            success: flipShuffle
+        });
+    });
+    //////////////////////////////////////////////////////////////
 
     return {};
     $(function ($) {

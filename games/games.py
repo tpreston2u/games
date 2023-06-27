@@ -124,15 +124,26 @@ class GamesXBlock(XBlock):
     '''
 
     @XBlock.json_handler
-    def update_timer(self, data, suffix=''):
+    def flip_timer(self, data, suffix=''):
         """
-        A handler to switch the timer field between true and false.
+        A handler to switch the timer field between true and false
+        when it is clicked.
         """
 
-        #if data['timerValue'] == 'timer':
         self.timer = not(self.timer)
         
-        return {"timer": self.timer}
+        return {'timer': self.timer}
+
+    @XBlock.json_handler
+    def flip_shuffle(self, data, suffix=''):
+        """
+        A handler to switch the shuffle field between true and false
+        when it is clicked.
+        """
+
+        self.shuffle = not(self.shuffle)
+
+        return {'shuffle': self.shuffle}
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
