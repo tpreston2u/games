@@ -10,16 +10,14 @@ function GamesXBlock(runtime, element) {
 
     //////////////////////////////////////////////////////////////
     //Timer Flip
-   function flipTimer(newTimer) {
+    function flipTimer(newTimer) {
         $('.timer_bool .timer_flip', element).text(newTimer.timer);
-   }
-
-    //var handlerUrlTimer = runtime.handlerUrl(element, 'flip_timer');
+    }
 
     $('.timer_bool', element).click(function(eventObject) {
         $.ajax({
             type: "POST",
-            url: runtime.handlerUrl(element, 'flip_timer'),//handlerUrlTimer,
+            url: runtime.handlerUrl(element, 'flip_timer'),
             data: JSON.stringify({timerData: 'timer'}),
             success: flipTimer
         });
@@ -30,16 +28,30 @@ function GamesXBlock(runtime, element) {
     //Shuffle Flip
     function flipShuffle(newShuffle) {
         $('.shuffle_bool .shuffle_flip', element).text(newShuffle.shuffle);
-   }
-
-    //var handlerUrlShuffle = runtime.handlerUrl(element, 'flip_shuffle');
+    }
 
     $('.shuffle_bool', element).click(function(eventObject) {
         $.ajax({
             type: "POST",
-            url: runtime.handlerUrl(element, 'flip_shuffle'),//handlerUrlShuffle,
+            url: runtime.handlerUrl(element, 'flip_shuffle'),
             data: JSON.stringify({shuffleData: 'shuffle'}),
             success: flipShuffle
+        });
+    });
+    //////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////
+    //Flip Flashcard
+    function flipFlashcard(newSide) {
+        $('.flashcard', element).text(newSide.text);
+    }
+
+    $('.flashcard', element).click(function(eventObject) {
+        $.ajax({
+            type: "POST",
+            url: runtime.handlerUrl(element, 'flip_flashcard'),
+            data: JSON.stringify({cardData: 'flashcard'}),
+            success: flipFlashcard
         });
     });
     //////////////////////////////////////////////////////////////

@@ -6,24 +6,21 @@ import pkg_resources
 from web_fragments.fragment import Fragment
 from xblock.core import XBlock
 
-#TO-DO: May need to import more or less field types later (DateTime is defined at line 935 but not listed at line 27: https://github.com/openedx/XBlock/blob/master/xblock/fields.py)
+#TO-DO: May need to import more or less field types later (https://github.com/openedx/XBlock/blob/master/xblock/fields.py)
 from xblock.fields import Integer, Scope, String, Boolean, List
 
 log = logging.getLogger(__name__)
 
-
 class GamesXBlock(XBlock):
     """
-    An XBlock for the creating games.
+    An XBlock for creating games.
 
     The Student view will provide the student's time (if the timer is enabled)
     and best time.
+
+    The studio view will allow course authors to create and manipulate the games.
     """
 
-    # Fields are defined on the class.  You can access them in your code as
-    # self.<fieldname>.
-
-    # TO-DO: make sure these fields are correct
     title = String(
         default="", 
         scope=Scope.content, 
@@ -39,15 +36,15 @@ class GamesXBlock(XBlock):
         scope=Scope.content,
         help="The list of terms and definitions."
     )
-    #The following fields should be in the list
     ###############
+    #The following fields should be in the list
     term = String(
-        default="",
+        default="This is a term.",
         scope=Scope.content,
         help="The term to be defined by the definition or image."
     )
     definition = String(
-        default="",
+        default="This is the definition of the term.",
         scope=Scope.content,
         help="The definition that defines the term or image."
     )
@@ -55,6 +52,11 @@ class GamesXBlock(XBlock):
         default="",
         scope=Scope.content, 
         help="The image that will act as either the term or definition."
+    )
+    term_is_visible = Boolean(
+        default=True,
+        scope=Scope.settings,
+        help="True when the term is visible and false when the definition is visible."
     )
     ##############
     shuffle = Boolean(
@@ -67,10 +69,9 @@ class GamesXBlock(XBlock):
         scope=Scope.settings, 
         help="Whether to enable the timer."
     )
-    #Need a variable for whether timer is enabled? (default=True)
-    #Following fields for student view
     ################
-    bestTime = Integer(
+    #Following fields for student view
+    best_time = Integer(
         default=None, 
         scope=Scope.user_info, 
         help="The user's best time."
@@ -99,7 +100,7 @@ class GamesXBlock(XBlock):
     def studio_view(self, context=None):
         """
         The editor view of the GamesXBlock, shown to course
-        creators.
+        authors.
         """
         html = self.resource_string("static/html/games.html")
         frag = Fragment(html.format(self=self))
@@ -107,21 +108,6 @@ class GamesXBlock(XBlock):
         frag.add_javascript(self.resource_string("static/js/src/games.js"))
         frag.initialize_js('GamesXBlock')
         return frag
-
-    # TO-DO: change this handler to perform your own actions.  You may need more
-    # than one handler, or you may not need any handlers at all.
-    '''
-    @XBlock.json_handler
-    def increment_count(self, data, suffix=''):
-        """
-        An example handler, which increments the data.
-        """
-        # Just to show data coming in...
-        assert data['hello'] == 'world'
-
-        self.count += 1
-        return {"count": self.count}
-    '''
 
     @XBlock.json_handler
     def flip_timer(self, data, suffix=''):
@@ -144,6 +130,22 @@ class GamesXBlock(XBlock):
         self.shuffle = not(self.shuffle)
 
         return {'shuffle': self.shuffle}
+    
+    @XBlock.json_handler
+    def flip_flashcard(self, data, suffix=''):
+        """
+        A handler to flip the flashcard from term to definition
+        and vice versa.
+        """
+
+        #invert term_is_visible before conditionals so it can return from the conditionals
+        self.term_is_visible = not(self.term_is_visible)
+
+        #conditionals based on inverting again to get original value
+        if not(self.term_is_visible):
+            return {'text': self.definition}
+        return {'text': self.term}
+
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
@@ -162,7 +164,3 @@ class GamesXBlock(XBlock):
                 </vertical_demo>
              """),
         ]
-
-#TO-DO: update HTML file
-#TO-DO: update CSS file
-#TO-DO: udpate JS file

@@ -1,6 +1,5 @@
 /* CSS for GamesXBlock */
 
-/*TO-DO: Use CSS to format games block*/
 .title {
     color: blue;
 }
@@ -10,3 +9,11 @@
     border: 1px solid #888;
     padding: 0 .5em;
 }
+
+.flashcard {
+    cursor: pointer;
+    border: 1px solid #888;
+    padding: 0 .5em;
+}
+
+/* style for true vs false? */
