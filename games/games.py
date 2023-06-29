@@ -22,12 +22,12 @@ class GamesXBlock(XBlock):
     """
 
     title = String(
-        default="", 
+        default="Flashcards", 
         scope=Scope.content, 
         help="The title of the block."
     )
     type = String(
-        default="", 
+        default="flashcards", 
         scope=Scope.settings, 
         help="The kind of game this block is responsible for."
     )
@@ -43,17 +43,37 @@ class GamesXBlock(XBlock):
         scope=Scope.content,
         help="The definition that defines the term or image."
     )
-    image = String(
+    term_image = String(
         default="",
         scope=Scope.content, 
-        help="The image that will act as either the term or definition."
+        help="The image url that will appear on the flashcard above the term."
+    )
+    definition_image = String(
+        default="",
+        scope=Scope.content,
+        help="The image url that will appear on the flashcard above the definition."
     )
     ###############
     list = List(
         default=[
-            {'term': 't1', 'definition': 'd1'},
-            {'term': 't2', 'definition': 'd2'},
-            {'term': 't3', 'definition': 'd3'},
+            {
+                'term_image': 'https://studio.stage.edx.org/static/studio/edx.org-next/images/studio-logo.005b2ebe0c8b.png',
+                'definition_image': 'https://logos.openedx.org/open-edx-logo-tag.png',
+                'term': 'Term 1', 
+                'definition': 'The definition of term 1 (moderate character length).'
+            },
+            {
+                'term_image': '', 
+                'definition_image': '',
+                'term': 'T2', 
+                'definition': 'Def of T2 - short.'
+            },
+            {
+                'term_image': 'https://logos.openedx.org/open-edx-logo-tag.png',
+                'definition_image': 'https://studio.stage.edx.org/static/studio/edx.org-next/images/studio-logo.005b2ebe0c8b.png',
+                'term': 'The Third Term', 
+                'definition': 'The definition of term 3. This one is far longer for testing purposes, so long in fact that it should certainly warrant a new line.'
+            },
             #{'term': 't4', 'definition': 'd4'}
         ],
         scope=Scope.content,
@@ -205,6 +225,44 @@ class GamesXBlock(XBlock):
         else:
             self.list_index = 0
         return {'term': self.list[self.list_index]['term'], 'index': self.list_index+1}
+    
+    @XBlock.json_handler
+    def expand_game(self, data, suffix=''):
+        description = "ERR: self.type not defined or incorrect"
+        if self.type == "flashcards":
+            description = "Click each card to reveal the definition"
+        elif self.type == "matching":
+            description = "Match each term with the correct definition"
+        return {
+            'title': self.title,
+            'description': description
+        }
+    
+    @XBlock.json_handler
+    def start_flashcards(self, data, suffix=''):
+        return {
+            'term_image': self.list[self.list_index]['term_image'],
+            'definition_image': self.list[self.list_index]['definition_image'],
+            'term': self.list[self.list_index]['term'],
+            'list_length': self.list_length
+        }
+    
+    @XBlock.json_handler
+    def close_game(self, data, suffix=''):
+        self.term_is_visible=True
+        self.list_index=0
+        return {
+            'title': self.title
+        }
+
+    @XBlock.json_handler
+    def display_help(self, data, suffix=''):
+        message = "ERR: self.type not defined or incorrect"
+        if self.type == "flashcards":
+            message = "Click each card to reveal the definition"
+        elif self.type == "matching":
+            message = "Match each term with the correct definition"
+        return {'message': message}
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.

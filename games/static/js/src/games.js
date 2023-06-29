@@ -9,6 +9,108 @@ function GamesAside(runtime, element, block_element, init_args) {
 function GamesXBlock(runtime, element) {
 
     //////////////////////////////////////////////////////////////
+    //Expand Flashcards Game
+    function expandCards(fullView) {
+        $('.title', element).text("");
+        $('.titleref', element).text(fullView.title)
+        $('.close', element).text("X");
+        $('.description', element).text(fullView.description)
+        $('.start', element).text("Start")
+    }
+
+    $('.title', element).click(function(eventObject) {
+        $.ajax({
+            type: "POST",
+            url: runtime.handlerUrl(element, 'expand_game'),
+            data: JSON.stringify({}),
+            success: expandCards
+        });
+    });
+    //////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////
+    //Start Flashcards Game
+    function startFlashcards(firstCard) {
+        $('.description', element).text("");
+        $('.start', element).text("");
+        $('.image', element).attr("src", firstCard.term_image);
+        $('.flashcard', element).text(firstCard.term);
+        $('.leftArrow', element).text("<");
+        $('.page', element).text("1");
+        $('.pageDivider', element).text("/");
+        $('.maxIndex', element).text(firstCard.list_length);
+        $('.rightArrow', element).text(">");
+        $('.help', element).text("?");
+    }
+
+    $('.start', element).click(function(eventObject) {
+        $.ajax({
+            type: "POST",
+            url: runtime.handlerUrl(element, 'start_flashcards'),
+            data: JSON.stringify({}),
+            success: startFlashcards
+        });
+    })
+    //////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////
+    //Close Flashcards Game
+    function closeGameFlashcards(initialView) {
+        $('.title', element).text(initialView.title);
+        $('.titleref', element).text("");
+        $('.close', element).text("");
+        $('.description', element).text("");
+        $('.start', element).text("");
+        $('.image', element).attr("src", "");
+        $('.flashcard', element).text("");
+        $('.leftArrow', element).text("");
+        $('.page', element).text("");
+        $('.pageDivider', element).text("");
+        $('.maxIndex', element).text("");
+        $('.rightArrow', element).text("");
+        $('.help',element).text("");
+    }
+
+    $('.close', element).click(function(eventObject) {
+        $.ajax({
+            type: "POST",
+            url: runtime.handlerUrl(element, 'close_game'),
+            data: JSON.stringify({}),
+            success: closeGameFlashcards
+        });
+    })
+    //////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////
+    //Tooltip
+    function getHelp(help) {
+        $('.helpbubble', element).text(help.message);
+    }
+
+    function hideHelp(help) {
+        $('.helpbubble', element).text("");
+    }
+
+    $('.help', element).mouseenter(function(eventObject) {
+        $.ajax({
+            type: "POST",
+            url: runtime.handlerUrl(element, 'display_help'),
+            data: JSON.stringify({}),
+            success: getHelp
+        });
+    });
+
+    $('.help', element).mouseleave(function(eventObject) {
+        $.ajax({
+            type: "POST",
+            url: runtime.handlerUrl(element, 'display_help'),
+            data: JSON.stringify({}),
+            success: hideHelp
+        });
+    });
+    //////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////
     //Timer Flip
     function flipTimer(newTimer) {
         $('.timer_bool .timer_flip', element).text(newTimer.timer);
@@ -18,7 +120,7 @@ function GamesXBlock(runtime, element) {
         $.ajax({
             type: "POST",
             url: runtime.handlerUrl(element, 'flip_timer'),
-            data: JSON.stringify({timerData: 'timer'}),
+            data: JSON.stringify({}),
             success: flipTimer
         });
     });
@@ -34,7 +136,7 @@ function GamesXBlock(runtime, element) {
         $.ajax({
             type: "POST",
             url: runtime.handlerUrl(element, 'flip_shuffle'),
-            data: JSON.stringify({shuffleData: 'shuffle'}),
+            data: JSON.stringify({}),
             success: flipShuffle
         });
     });
@@ -50,7 +152,7 @@ function GamesXBlock(runtime, element) {
         $.ajax({
             type: "POST",
             url: runtime.handlerUrl(element, 'flip_flashcard'),
-            data: JSON.stringify({cardData: 'flashcard'}),
+            data: JSON.stringify({}),
             success: flipFlashcard
         });
     });

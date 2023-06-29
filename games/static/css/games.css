@@ -1,7 +1,26 @@
 /* CSS for GamesXBlock */
+.gamesxblock {
+    border: 1px solid #888;
+    padding: 0 .5em;
+}
+
+.start {
+    color: white;
+    background-color: black;
+    cursor: pointer;
+}
+
+.close {
+    color: gray;
+    cursor: pointer;
+}
 
 .title {
-    color: blue;
+    cursor: pointer;
+}
+
+.titleref {
+    font-weight: bold;
 }
 
 .timer_bool, .shuffle_bool{
@@ -10,12 +29,23 @@
     padding: 0 .5em;
 }
 
-.flashcard, .leftArrow, .rightArrow {
+.flashcard {
     cursor: pointer;
-    border: 1px solid #888;
-    padding: 0 .5em;
 }
+
 .leftArrow, .rightArrow {
-    background-color: lightgray
+    cursor: pointer;
+    background-color: lightgray;
+}
+
+.help {
+    cursor: pointer;
+    color: white;
+    background-color: black ;
+}
+
+.helpbubble {
+    color: white;
+    background-color: black;
 }
 /* style for true vs false? */
