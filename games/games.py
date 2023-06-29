@@ -51,25 +51,46 @@ class GamesXBlock(XBlock):
     ###############
     list = List(
         default=[
-            Dict(
-                default=dict(term='term1', definition='definition1'),
-                scope=Scope.content,
-                help="The first flashcard in the list."
-            ),
-            Dict(
-                default=dict(term='term2', definition='definition2'),
-                scope=Scope.content,
-                help="The second flashcard in the list."
-            ),
-            Dict(
-                default=dict(term='term3', definition='definition3'),
-                scope=Scope.content,
-                help="The third flashcard in the list."
-            )
+            {'term': 't1', 'definition': 'd1'},
+            {'term': 't2', 'definition': 'd2'},
+            {'term': 't3', 'definition': 'd3'},
+            #{'term': 't4', 'definition': 'd4'}
         ],
         scope=Scope.content,
         help="The list of terms and definitions."
     )
+    list_term1 = String(
+        default=list.default[0]['term'],
+        scope=Scope.content,
+        help="TEMP for HTML"
+    )
+    list_length = Integer(
+        default=len(list.default),
+        scope=Scope.content,
+        help="TEMP for HTML"
+    )
+
+    '''
+        default=[
+            Dict(
+                default={'term': 'term1', 'definition': 'definition1'},
+                scope=Scope.content,
+                help="The first flashcard in the list."
+            ),
+            Dict(
+                default={'term': 'term2', 'definition': 'definition2'},
+                scope=Scope.content,
+                help="The second flashcard in the list."
+            ),
+            Dict(
+                default={'term': 'term3', 'definition': 'definition3'},
+                scope=Scope.content,
+                help="The third flashcard in the list."
+            )
+        ],
+        '''
+        
+    #)
     list_index = Integer(
         default=0,
         scope=Scope.settings,
@@ -165,12 +186,25 @@ class GamesXBlock(XBlock):
 
         #conditionals based on inverting again to get original value
         if not(self.term_is_visible):
-            return {'text': self.definition}
-        return {'text': self.term}
+            return {'text': self.list[self.list_index]['definition']}
+        return {'text': self.list[self.list_index]['term']}
 
     @XBlock.json_handler
     def page_turn(self, data, suffix=''):
-        return {}
+        self.term_is_visible = True
+
+        if data['nextIndex'] == 'left':
+            if self.list_index>0:
+                self.list_index-=1
+            else:
+                self.list_index=len(self.list)-1
+            return {'term': self.list[self.list_index]['term'], 'index': self.list_index+1}
+
+        if self.list_index<len(self.list)-1:
+            self.list_index+=1
+        else:
+            self.list_index = 0
+        return {'term': self.list[self.list_index]['term'], 'index': self.list_index+1}
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.

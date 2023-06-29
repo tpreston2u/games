@@ -56,6 +56,32 @@ function GamesXBlock(runtime, element) {
     });
     //////////////////////////////////////////////////////////////
 
+    //////////////////////////////////////////////////////////////
+    //Page Turn
+    function pageTurn(nextCard) {
+        $('.flashcard', element).text(nextCard.term);
+        $('.page', element).text(nextCard.index);
+    }
+
+    $('.leftArrow', element).click(function(eventObject) {
+        $.ajax({
+            type: "POST",
+            url: runtime.handlerUrl(element, 'page_turn'),
+            data: JSON.stringify({nextIndex: 'left'}),
+            success: pageTurn
+        });
+    });
+
+    $('.rightArrow', element).click(function(eventObject) {
+        $.ajax({
+            type: "POST",
+            url: runtime.handlerUrl(element, 'page_turn'),
+            data: JSON.stringify({nextIndex: 'right'}),
+            success: pageTurn
+        });
+    });
+    //////////////////////////////////////////////////////////////
+
     return {};
     $(function ($) {
         /* Here's where you'd do things on page load. */

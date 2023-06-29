@@ -8,9 +8,12 @@
         Shuffle Enabled: <span class='shuffle_flip'>{self.shuffle}</span>
     </span>
     -->
-    <span class='arrow'><</span>
-    <span class='flashcard'>{self.term}</span>
-    <span class='arrow'>></span>
+    <!--
+        MAY NEED TO USE THE BOTTOM OF THE JS FILE TO INITIALIZE THE FLASHCARD - self.list_term1 and self.list_length should not need their own fields
+    -->
+    <span class='leftArrow'><</span>
+    <span class='flashcard'>{self.list_term1}</span>
+    <span class='rightArrow'>></span>
     <br>
-    <span>1</span><span>/</span><span>TEMP</span>
+    <span class='page'>1</span><span>/</span><span class='maxIndex'>{self.list_length}</span>
 </p>
