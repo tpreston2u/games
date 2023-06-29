@@ -206,8 +206,8 @@ class GamesXBlock(XBlock):
 
         #conditionals based on inverting again to get original value
         if not(self.term_is_visible):
-            return {'text': self.list[self.list_index]['definition']}
-        return {'text': self.list[self.list_index]['term']}
+            return {'image': self.list[self.list_index]['definition_image'], 'text': self.list[self.list_index]['definition']}
+        return {'image': self.list[self.list_index]['term_image'], 'text': self.list[self.list_index]['term']}
 
     @XBlock.json_handler
     def page_turn(self, data, suffix=''):
@@ -218,13 +218,13 @@ class GamesXBlock(XBlock):
                 self.list_index-=1
             else:
                 self.list_index=len(self.list)-1
-            return {'term': self.list[self.list_index]['term'], 'index': self.list_index+1}
+            return {'term_image': self.list[self.list_index]['term_image'], 'term': self.list[self.list_index]['term'], 'index': self.list_index+1}
 
         if self.list_index<len(self.list)-1:
             self.list_index+=1
         else:
             self.list_index = 0
-        return {'term': self.list[self.list_index]['term'], 'index': self.list_index+1}
+        return {'term_image': self.list[self.list_index]['term_image'], 'term': self.list[self.list_index]['term'], 'index': self.list_index+1}
     
     @XBlock.json_handler
     def expand_game(self, data, suffix=''):

@@ -145,10 +145,20 @@ function GamesXBlock(runtime, element) {
     //////////////////////////////////////////////////////////////
     //Flip Flashcard
     function flipFlashcard(newSide) {
+        $('.image', element).attr("src", newSide.image);
         $('.flashcard', element).text(newSide.text);
     }
 
     $('.flashcard', element).click(function(eventObject) {
+        $.ajax({
+            type: "POST",
+            url: runtime.handlerUrl(element, 'flip_flashcard'),
+            data: JSON.stringify({}),
+            success: flipFlashcard
+        });
+    });
+
+    $('.image', element).click(function(eventObject) {
         $.ajax({
             type: "POST",
             url: runtime.handlerUrl(element, 'flip_flashcard'),
@@ -161,6 +171,7 @@ function GamesXBlock(runtime, element) {
     //////////////////////////////////////////////////////////////
     //Page Turn
     function pageTurn(nextCard) {
+        $('.image', element).attr("src", nextCard.term_image);
         $('.flashcard', element).text(nextCard.term);
         $('.page', element).text(nextCard.index);
     }

@@ -29,6 +29,10 @@
     padding: 0 .5em;
 }
 
+.image {
+    cursor: pointer;
+}
+
 .flashcard {
     cursor: pointer;
 }
