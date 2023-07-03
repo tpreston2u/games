@@ -16,9 +16,9 @@ function GamesXBlock(runtime, element) {
         var expandedBlock = "<div class='background-block'></div>";
         var topDiv = "<div class='flashcard-top'></div>";
         var title = "<div class='title-persistent'></div>";
-        var close = "<div class='close'>X</div>";
-        //var closeButton = "<div class='close-button></div>";
-        //var closeImage = "<div class='close-image'>X</div>"
+        var closeButton = "<div class='close-button'></div>";
+        var closeBackground = "<div class='close-background'></div>";
+        var closeImage = "<img class='close-image'>";
         var startBlock = "<div class='start-block'></div>";
         var description = "<div class='flashcard-description'></div>";
         var startButton = "<div class='start-button'>Start</div>";
@@ -27,9 +27,10 @@ function GamesXBlock(runtime, element) {
         $('.background-block', element).append(topDiv);
         $('.flashcard-top', element).append(title);
         $('.title-persistent', element).text(fullView.title);
-        $('.flashcard-top', element).append(close);
-        //$('.close', element).apeend(closeButton);
-        //$('.close-button', element).append(closeImage);
+        $('.flashcard-top', element).append(closeButton);
+        $('.close-button', element).append(closeBackground);
+        $('.close-background', element).append(closeImage);
+        $('.close-image', element).attr("src", "/games/games/static/img/close_button.png");
         $('.background-block', element).append(startBlock);
         $('.start-block', element).append(description);
         $('.flashcard-description', element).text(fullView.description);
@@ -57,7 +58,7 @@ function GamesXBlock(runtime, element) {
         var footer = "<div class='flashcard-footer'></div>";
         var spacer = "<div class='spacer'></div>";
         var tooltip = "<div class='tooltip'></div>";
-        var tooltipButton = "<div class='tooltip-button'>?</div>";
+        var tooltipButton = "<img class='tooltip-button'>";
         var navigation = "<div class='flashcard-navigation'></div>";
         var left = "<div class='flashcard-left-button'></div>";
         var leftImage = "<img class='flashcard-left-image'>";
@@ -75,6 +76,7 @@ function GamesXBlock(runtime, element) {
         $('.flashcard-footer', element).append(navigation);
         $('.flashcard-footer', element).append(tooltip);
         $('.tooltip', element).append(tooltipButton);
+        $('.tooltip-button', element).attr("src", "/games/games/static/img/help_outline.png");
         $('.flashcard-navigation', element).append(left);
         $('.flashcard-left-button', element).append(leftImage);
         $('.flashcard-left-image', element).attr("src", "/games/games/static/img/navigate_left.png");
@@ -106,7 +108,7 @@ function GamesXBlock(runtime, element) {
         $('.title', element).text(initialView.title);
     }
 
-    $(document).on('click', '.close', function(eventObject) {
+    $(document).on('click', '.close-button', function(eventObject) {
         $.ajax({
             type: "POST",
             url: runtime.handlerUrl(element, 'close_game'),
@@ -119,16 +121,19 @@ function GamesXBlock(runtime, element) {
     //////////////////////////////////////////////////////////////
     //Tooltip
     function getHelp(help) {
-        //$('.helpbubble', element).text(help.message);
+        var tooltipBubble = "<div class='tooltip-bubble-block'></div>";
+        var tooltipContainer = "<div class='tooltip-bubble-container'></div>";
+        var tooltipTextBlock = "<div class='tooltip-bubble-text-block'></div>";
+        var tooltipText = "<div class='tooltip-bubble-text'></div>";
+        var tooltipPolygon = "<img class='tooltip-polygon'>";
 
-        var bubbleBlock = "<div class='tooltip-bubble-block'></div>";
-        var bubbleTextBlock = "<div class='tooltip-bubble-text-block'></div>";
-        var bubbleText = "<div class='tooltip-bubble-text'></div>";
-
-        $('.tooltip', element).append(bubbleBlock);
-        $('.tooltip-bubble-block', element).append(bubbleTextBlock);
-        $('.tooltip-bubble-text-block', element).append(bubbleText);
+        $('.tooltip', element).append(tooltipBubble);
+        $('.tooltip-bubble-block', element).append(tooltipContainer);
+        $('.tooltip-bubble-container', element).append(tooltipTextBlock);
+        $('.tooltip-bubble-text-block', element).append(tooltipText);
         $('.tooltip-bubble-text', element).text(help.message);
+        $('.tooltip-bubble-text-block', element).append(tooltipPolygon);
+        $('.tooltip-polygon', element).attr("src", "/games/games/static/img/polygon_1.png");
     }
 
     function hideHelp(help) {
