@@ -63,8 +63,8 @@ class GamesXBlock(XBlock):
                 'definition': 'The definition of term 1 (moderate character length).'
             },
             {
-                'term_image': '', 
-                'definition_image': '',
+                'term_image': None, 
+                'definition_image': None,
                 'term': 'T2', 
                 'definition': 'Def of T2 - short.'
             },
@@ -218,13 +218,13 @@ class GamesXBlock(XBlock):
                 self.list_index-=1
             else:
                 self.list_index=len(self.list)-1
-            return {'term_image': self.list[self.list_index]['term_image'], 'term': self.list[self.list_index]['term'], 'index': self.list_index+1}
+            return {'term_image': self.list[self.list_index]['term_image'], 'term': self.list[self.list_index]['term'], 'index': self.list_index+1, 'list_length': self.list_length}
 
         if self.list_index<len(self.list)-1:
             self.list_index+=1
         else:
             self.list_index = 0
-        return {'term_image': self.list[self.list_index]['term_image'], 'term': self.list[self.list_index]['term'], 'index': self.list_index+1}
+        return {'term_image': self.list[self.list_index]['term_image'], 'term': self.list[self.list_index]['term'], 'index': self.list_index+1, 'list_length': self.list_length}
     
     @XBlock.json_handler
     def expand_game(self, data, suffix=''):
