@@ -1,15 +1,9 @@
 /* Javascript for GamesXBlock. */
-/*
-TO-DO: Figure out if GamesAside is necessary (the tutorial covered adding this, but it was not here by default)
-function GamesAside(runtime, element, block_element, init_args) {
-    return new GamesXBlock(runtime, element);
-}
-*/
 
 function GamesXBlock(runtime, element) {
 
     //////////////////////////////////////////////////////////////
-    //Expand Flashcards Game
+    //Expand flashcards game
     function expandCards(fullView) {
         $('.title', element).remove();
 
@@ -48,7 +42,7 @@ function GamesXBlock(runtime, element) {
     //////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////////////////
-    //Start Flashcards Game
+    //Start flashcards game
     function startFlashcards(firstCard) {
         $('.start-block', element).remove();
 
@@ -58,7 +52,8 @@ function GamesXBlock(runtime, element) {
         var footer = "<div class='flashcard-footer'></div>";
         var spacer = "<div class='spacer'></div>";
         var tooltip = "<div class='tooltip'></div>";
-        var tooltipButton = "<img class='tooltip-button'>";
+        var tooltipButton = "<div class='tooltip-button'></div>";
+        var tooltipButtonImage = "<img class='tooltip-button-image'></div>";
         var navigation = "<div class='flashcard-navigation'></div>";
         var left = "<div class='flashcard-left-button'></div>";
         var leftImage = "<img class='flashcard-left-image'>";
@@ -76,7 +71,8 @@ function GamesXBlock(runtime, element) {
         $('.flashcard-footer', element).append(navigation);
         $('.flashcard-footer', element).append(tooltip);
         $('.tooltip', element).append(tooltipButton);
-        $('.tooltip-button', element).attr("src", "/games/games/static/img/help_outline.png");
+        $('.tooltip-button', element).append(tooltipButtonImage);
+        $('.tooltip-button-image', element).attr("src", "/games/games/static/img/help_outline.png");
         $('.flashcard-navigation', element).append(left);
         $('.flashcard-left-button', element).append(leftImage);
         $('.flashcard-left-image', element).attr("src", "/games/games/static/img/navigate_left.png");
@@ -98,7 +94,7 @@ function GamesXBlock(runtime, element) {
     //////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////////////////
-    //Close Flashcards Game
+    //Close flashcards game
     function closeGameFlashcards(initialView) {
         $('.background-block', element).remove();
         
@@ -119,25 +115,24 @@ function GamesXBlock(runtime, element) {
     //////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////////////////
-    //Tooltip
+    //Show and hide tooltip bubble
     function getHelp(help) {
-        var tooltipBubble = "<div class='tooltip-bubble-block'></div>";
-        var tooltipContainer = "<div class='tooltip-bubble-container'></div>";
-        var tooltipTextBlock = "<div class='tooltip-bubble-text-block'></div>";
-        var tooltipText = "<div class='tooltip-bubble-text'></div>";
+        var tooltipBlock = "<div class='tooltip-block'></div>";
+        var tooltipContainer = "<div class='tooltip-container'></div>";
+        var tooltipText = "<div class='tooltip-text'></div>";
         var tooltipPolygon = "<img class='tooltip-polygon'>";
 
-        $('.tooltip', element).append(tooltipBubble);
-        $('.tooltip-bubble-block', element).append(tooltipContainer);
-        $('.tooltip-bubble-container', element).append(tooltipTextBlock);
-        $('.tooltip-bubble-text-block', element).append(tooltipText);
-        $('.tooltip-bubble-text', element).text(help.message);
-        $('.tooltip-bubble-text-block', element).append(tooltipPolygon);
-        $('.tooltip-polygon', element).attr("src", "/games/games/static/img/polygon_1.png");
+        $('.tooltip-button', element).append(tooltipBlock);
+
+        $('.tooltip-block', element).append(tooltipContainer);
+        $('.tooltip-container', element).append(tooltipText);
+        $('.tooltip-text', element).text(help.message);
+        //$('.tooltip-container', element).append(tooltipPolygon);
+        //$('.tooltip-polygon', element).attr("src", "/games/games/static/img/polygon_1.png");
     }
 
     function hideHelp(help) {
-        $('.tooltip-bubble-block', element).remove();
+        $('.tooltip-block', element).remove();
     }
 
     $(document).on('mouseenter', '.tooltip', function(eventObject) {
@@ -160,7 +155,7 @@ function GamesXBlock(runtime, element) {
     //////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////////////////
-    //Flip Flashcard
+    //Flip the current flashcard
     function flipFlashcard(newSide) {
         $('.image', element).attr("src", newSide.image);
         $('.flashcard-text', element).text(newSide.text);
@@ -177,7 +172,7 @@ function GamesXBlock(runtime, element) {
     //////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////////////////
-    //Page Turn
+    //Turn the page
     function pageTurn(nextCard) {
         $('.image', element).attr("src", nextCard.term_image);
         $('.flashcard-text', element).text(nextCard.term);
@@ -204,11 +199,13 @@ function GamesXBlock(runtime, element) {
     //////////////////////////////////////////////////////////////
 
     return {};
+
     $(function ($) {
         /* Here's where you'd do things on page load. */
     });
 }
 
+//Old stuff - no longer has a purpose. Will delete once editor view is complete.
 /*
     //////////////////////////////////////////////////////////////
     //Timer Flip

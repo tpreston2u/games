@@ -185,16 +185,21 @@
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    
-    cursor: pointer;
 }
 
 .tooltip-button {
     width: 24px;
-    height: 24px; 
+    height: 24px;
+    
+    cursor: pointer;
 }
 
-.tooltip-bubble-block {
+.tooltip-button-image {
+    width: 24px;
+    height: 24px;
+}
+
+.tooltip-block {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -204,13 +209,13 @@
     box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15), 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
 }
 
-.tooltip-bubble-container {
+.tooltip-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.tooltip-bubble-text-block {
+.tooltip-text {
     display: flex;
     padding: 4px 8px;
     align-items: center;
@@ -218,9 +223,7 @@
 
     border-radius: 4px;
     background: var(--core-elm, #00262B);
-}
 
-.tooltip-bubble-text {
     color: var(--extras-white, #FFF);
     text-align: center;
     font-size: 14px;
@@ -273,49 +276,3 @@
     font-weight: 500;
     line-height: normal;
 }
-
-
-
-
-
-
-
-
-.start {
-    color: white;
-    background-color: black;
-    cursor: pointer;
-}
-
-.titleref {
-    font-weight: bold;
-}
-
-.timer_bool, .shuffle_bool{
-    cursor: pointer;
-    border: 1px solid #888;
-    padding: 0 .5em;
-}
-
-
-
-.flashcard {
-    cursor: pointer;
-}
-
-.leftArrow, .rightArrow {
-    cursor: pointer;
-    background-color: lightgray;
-}
-
-.help {
-    cursor: pointer;
-    color: white;
-    background-color: black ;
-}
-
-.helpbubble {
-    color: white;
-    background-color: black;
-}
-/* style for true vs false? */
