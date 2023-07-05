@@ -1,6 +1,7 @@
 /* CSS for GamesXBlock */
 
 /*gamesxblock style for testing formatting only*/
+/*
 .gamesxblock {
     display: flex;
     padding: 40px;
@@ -9,9 +10,9 @@
     gap: 40px;
     flex: 1 0 0;
     align-self: stretch;
-}
+}*/
 
-.title {
+.title-initial {
     display: flex;
     width: 649px;
     padding: 18px 281px;
@@ -68,8 +69,6 @@
     height: 24px;
     justify-content: center;
     align-items: center;
-
-    cursor: pointer;
 }
 
 .close-background {
@@ -88,6 +87,8 @@
     width: 24px;
     height: 24px;
     flex-shrink: 0;
+
+    cursor: pointer;
 }
 
 .start-block {
@@ -200,13 +201,23 @@
 }
 
 .tooltip-block {
-    display: flex;
+    position: relative;
+    /*the bottom value will ***absolutely*** have to change to account for different help messages*/
+    bottom: 144px;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+}
 
-    /* V3 shadow - level 2 */
-    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15), 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
+.tooltip-block::after {
+    content: "";
+    position: absolute;
+    top: 92%;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: var(--core-elm, #00262B) transparent transparent transparent;
 }
 
 .tooltip-container {
@@ -236,6 +247,8 @@
 .tooltip-polygon {
     width: 13.856px;
     height: 9px;
+
+    box-shadow: 0px;
 }
 
 .flashcard-navigation {

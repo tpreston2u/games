@@ -5,7 +5,7 @@ function GamesXBlock(runtime, element) {
     //////////////////////////////////////////////////////////////
     //Expand flashcards game
     function expandCards(fullView) {
-        $('.title', element).remove();
+        $('.title-initial', element).remove();
 
         var expandedBlock = "<div class='background-block'></div>";
         var topDiv = "<div class='flashcard-top'></div>";
@@ -31,7 +31,7 @@ function GamesXBlock(runtime, element) {
         $('.start-block', element).append(startButton);
     }
 
-    $(document).on('click', '.title', function(eventObject) {
+    $(document).on('click', '.title-initial', function(eventObject) {
         $.ajax({
             type: "POST",
             url: runtime.handlerUrl(element, 'expand_game'),
@@ -53,7 +53,7 @@ function GamesXBlock(runtime, element) {
         var spacer = "<div class='spacer'></div>";
         var tooltip = "<div class='tooltip'></div>";
         var tooltipButton = "<div class='tooltip-button'></div>";
-        var tooltipButtonImage = "<img class='tooltip-button-image'></div>";
+        var tooltipButtonImage = "<img class='tooltip-button-image'>";
         var navigation = "<div class='flashcard-navigation'></div>";
         var left = "<div class='flashcard-left-button'></div>";
         var leftImage = "<img class='flashcard-left-image'>";
@@ -98,13 +98,13 @@ function GamesXBlock(runtime, element) {
     function closeGameFlashcards(initialView) {
         $('.background-block', element).remove();
         
-        var init = "<div class='title'></div>";
+        var init = "<div class='title-initial'></div>";
 
         $('.gamesxblock', element).append(init);
-        $('.title', element).text(initialView.title);
+        $('.title-initial', element).text(initialView.title);
     }
 
-    $(document).on('click', '.close-button', function(eventObject) {
+    $(document).on('click', '.close-image', function(eventObject) {
         $.ajax({
             type: "POST",
             url: runtime.handlerUrl(element, 'close_game'),
@@ -120,14 +120,15 @@ function GamesXBlock(runtime, element) {
         var tooltipBlock = "<div class='tooltip-block'></div>";
         var tooltipContainer = "<div class='tooltip-container'></div>";
         var tooltipText = "<div class='tooltip-text'></div>";
-        var tooltipPolygon = "<img class='tooltip-polygon'>";
+        //var tooltipPolygon = "<img class='tooltip-polygon'>";
+        var tooltipPolygon = "<div class='tooltip-polygon'></div>";
 
         $('.tooltip-button', element).append(tooltipBlock);
 
         $('.tooltip-block', element).append(tooltipContainer);
         $('.tooltip-container', element).append(tooltipText);
         $('.tooltip-text', element).text(help.message);
-        //$('.tooltip-container', element).append(tooltipPolygon);
+        $('.tooltip-container', element).append(tooltipPolygon);
         //$('.tooltip-polygon', element).attr("src", "/games/games/static/img/polygon_1.png");
     }
 

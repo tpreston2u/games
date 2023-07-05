@@ -7,7 +7,7 @@ from web_fragments.fragment import Fragment
 from xblock.core import XBlock
 
 #TO-DO: May need to import more or less field types later (https://github.com/openedx/XBlock/blob/master/xblock/fields.py)
-from xblock.fields import Integer, Scope, String, Boolean, List, Dict
+from xblock.fields import Integer, Scope, String, Boolean, List#, Dict
 
 log = logging.getLogger(__name__)
 
@@ -15,24 +15,25 @@ class GamesXBlock(XBlock):
     """
     An XBlock for creating games.
 
-    The Student view will provide the student's time (if the timer is enabled)
-    and best time.
+    The Student view will display the game content and allow the student to interact
+    accordingly.
 
-    The studio view will allow course authors to create and manipulate the games.
+    The editor view will allow course authors to create and manipulate the games.
     """
 
     title = String(
         default="Flashcards", 
         scope=Scope.content, 
-        help="The title of the block."
+        help="The title of the block to be displayed in the xblock."
     )
     type = String(
         default="flashcards", 
         scope=Scope.settings, 
-        help="The kind of game this block is responsible for."
+        help="The kind of game this xblock is responsible for ('flashcards' or 'matching' for now)."
     )
     ###############
-    #The following fields should be in the list below
+    #The following fields are depricated and are instead in the list below
+    '''
     term = String(
         default="This is a term.",
         scope=Scope.content,
@@ -53,6 +54,7 @@ class GamesXBlock(XBlock):
         scope=Scope.content,
         help="The image url that will appear on the flashcard above the definition."
     )
+    '''
     ###############
     list = List(
         default=[
@@ -79,18 +81,14 @@ class GamesXBlock(XBlock):
         scope=Scope.content,
         help="The list of terms and definitions."
     )
-    list_term1 = String(
-        default=list.default[0]['term'],
-        scope=Scope.content,
-        help="TEMP for HTML"
-    )
     list_length = Integer(
         default=len(list.default),
         scope=Scope.content,
-        help="TEMP for HTML"
+        help="TEMP for HTML - WILL LIKELY NEED TO CHANGE WHEN DUMMY DATA IS NO LONGER USED"
     )
 
     '''
+    # The following is another way to approach the list - currently not used but may be useful after dummy data is no longer used.
         default=[
             Dict(
                 default={'term': 'term1', 'definition': 'definition1'},
@@ -109,37 +107,36 @@ class GamesXBlock(XBlock):
             )
         ],
         '''
-        
     #)
+
     list_index = Integer(
         default=0,
         scope=Scope.settings,
-        help="The index of the list that determines which flashcard is visible."
+        help="Determines which flashcard from the list is currently visible."
     )
-
     term_is_visible = Boolean(
         default=True,
         scope=Scope.settings,
         help="True when the term is visible and false when the definition is visible."
     )
+    best_time = Integer(
+        default=None, 
+        scope=Scope.user_info, 
+        help="The user's best time."
+    )
+
+    #Following fields for editor only
     shuffle = Boolean(
         default=True, 
         scope=Scope.settings, 
-        help="Whether to shuffle. For flashcards only."
+        help="Whether to shuffle or not. For flashcards only."
     )
     timer = Boolean(
         default=True, 
         scope=Scope.settings, 
         help="Whether to enable the timer."
     )
-    ################
-    #Following fields for student view
-    best_time = Integer(
-        default=None, 
-        scope=Scope.user_info, 
-        help="The user's best time."
-    )
-    ################
+    ###################################
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
